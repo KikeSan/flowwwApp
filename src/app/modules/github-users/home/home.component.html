@@ -1,0 +1,71 @@
+<div class="container">
+  <form [formGroup]="aFormGroup">
+    <div class="search">
+      <input name="user" placeholder="Ingresar usuario" type="text" class="inputComponent" value=""
+             formControlName="username">
+      <button class="btnComponent" (click)="searchUser($event)">
+        <span class="material-symbols-outlined">search</span> BUSCAR
+      </button>
+    </div>
+  </form>
+
+  <div class="result">
+    <!--<table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of currentPageUsers">
+        <td>{{ user.id }}</td>
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+      </tr>
+      </tbody>
+    </table>-->
+    <div class="userList">
+      <div class="userList--user" *ngFor="let user of currentPageUsers">
+        <a (click)="openUserInfo(user)" class="userList--holder">
+          <img src="{{user.avatar_url}}" alt="">
+          <div class="userList--info">
+            <span>{{user.id}}</span>
+            <h3>{{user.login}} </h3>
+            <p>{{user.html_url}}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1" class="btnComponent">Anterior</button>
+
+      <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+        <button
+          class="btnComponent"
+          [class.active]="currentPage === i + 1"
+          (click)="changePage(i + 1)">
+          {{ i + 1 }}
+        </button>
+      </ng-container>
+
+      <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages" class="btnComponent">Siguiente</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal-backdrop" *ngIf="modalAbierto" (click)="closeModal()"></div>
+<div class="modal" *ngIf="modalAbierto">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Detalle del Usuario</h2>
+    <p><strong>ID:</strong> {{ usuarioSeleccionado?.id }}</p>
+    <p><strong>Nombre:</strong> {{ usuarioSeleccionado?.name }}</p>
+    <p><strong>Email:</strong> {{ usuarioSeleccionado?.email }}</p>
+    <button (click)="closeModal()">Cerrar</button>
+  </div>
+</div>
