@@ -1,4 +1,10 @@
 <div class="container">
+  <div class="title">
+    <h1>
+      <img src="./assets/images/github_icon.png" alt="">
+      <span>Github: Buscador de usuarios</span>
+    </h1>
+  </div>
   <form [formGroup]="aFormGroup">
     <div class="search">
       <input name="user" placeholder="Ingresar usuario" type="text" class="inputComponent" value=""
@@ -10,29 +16,14 @@
   </form>
 
   <div class="result">
-    <!--<table>
-      <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Email</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let user of currentPageUsers">
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-      </tr>
-      </tbody>
-    </table>-->
+
     <div class="userList">
       <div class="userList--user" *ngFor="let user of currentPageUsers">
         <a (click)="openUserInfo(user)" class="userList--holder">
           <img src="{{user.avatar_url}}" alt="">
           <div class="userList--info">
-            <span>{{user.id}}</span>
-            <h3>{{user.login}} </h3>
+
+            <h3>{{user.login}} <!--<span>{{user.id}}</span>--></h3>
             <p>{{user.html_url}}</p>
           </div>
         </a>
@@ -55,6 +46,9 @@
     </div>
   </div>
 </div>
+<div class="container_footer">
+  <p class="footer">©2025 - developed by Enrique Sánchez Q. All rights reserved.</p>
+</div>
 
 
 
@@ -62,10 +56,45 @@
 <div class="modal-backdrop" *ngIf="modalAbierto" (click)="closeModal()"></div>
 <div class="modal" *ngIf="modalAbierto">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <h2>Detalle del Usuario</h2>
-    <p><strong>ID:</strong> {{ usuarioSeleccionado?.id }}</p>
-    <p><strong>Nombre:</strong> {{ usuarioSeleccionado?.name }}</p>
-    <p><strong>Email:</strong> {{ usuarioSeleccionado?.email }}</p>
-    <button (click)="closeModal()">Cerrar</button>
+    <img class="logo" src="./assets/images/github_icon.png" alt="">
+    <div class="userInfo">
+      <img src="{{usuarioSeleccionado?.avatar_url}}" alt="">
+      <div class="text">
+        <p class="userName">{{ usuarioSeleccionado?.login }}</p>
+        <p class="subInfo">
+          <span class="material-symbols-outlined">public</span>
+          <span>{{ usuarioSeleccionado?.html_url }}</span>
+        </p>
+        <p class="subInfo">
+          <span class="material-symbols-outlined">badge</span>
+          <span>Id: {{ usuarioSeleccionado?.id }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="userDetail">
+      <div class="column">
+        <span class="material-symbols-outlined">sdk</span>
+        <div class="data">
+          <div class="title">Repositorios</div>
+          <div class="dataDetail">123</div>
+        </div>
+      </div>
+      <div class="column">
+        <span class="material-symbols-outlined">group</span>
+        <div class="data">
+          <div class="title">Seguidores</div>
+          <div class="dataDetail">13</div>
+        </div>
+      </div>
+      <div class="column">
+        <span class="material-symbols-outlined">diversity_1</span>
+        <div class="data">
+          <div class="title">Siguiendo</div>
+          <div class="dataDetail">13</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btnComponent" (click)="closeModal()">Cerrar</button>
   </div>
 </div>

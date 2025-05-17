@@ -2,13 +2,31 @@
 
 .container{
   max-width: 700px;
-  margin: 60px auto;
+  margin: 40px auto 0;
 
+  .title{
+
+    h1{
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img{
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    span{
+      color: #000;
+      font-family: $outfit;
+    }
+  }
   .search{
     display: flex;
     justify-content: center;
     max-width: 300px;
-    margin: 250px auto 0;
+    margin: 150px auto 0;
   }
 
   .result{
@@ -26,7 +44,7 @@
         //border: 1px solid rgba($blackText, 0.3);
         background-color: $white;
         margin: 10px;
-        padding: 10px 15px 15px 15px;
+        padding: 12px 16px;
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -37,8 +55,8 @@
         }
       }
       img{
-        width: 50px;
-        height: 50px;
+        width: 46px;
+        height: 46px;
         border-radius: 50%;
         border: 3px solid $white;
       }
@@ -50,10 +68,12 @@
           display: flex;
           align-items: center;
           font-size: 16px;
-        }
-        span{
-          font-size: 10px;
-          color: $blue;
+          span{
+            margin-left: 10px;
+            font-size: 10px;
+            color: $blue;
+            font-family: $noto;
+          }
         }
         p{
           margin: 0;
@@ -85,6 +105,17 @@
       }*/
     }
   }
+
+  .footer{
+    text-align: center;
+  }
+}
+.container_footer{
+  max-width: 700px;
+  margin: 0 auto 40px;
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.7;
 }
 
 .inputComponent{
@@ -132,7 +163,7 @@ MODAL STYLES
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
 }
 
@@ -146,7 +177,7 @@ MODAL STYLES
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   z-index: 1001;
-  max-width: 400px;
+  max-width: 450px;
   width: 90%;
 }
 
@@ -154,4 +185,56 @@ MODAL STYLES
   display: flex;
   flex-direction: column;
   gap: 12px;
+  .logo{
+    width: 24px;
+    height: 24px;
+    margin: 0 auto 30px;
+  }
+  .userInfo{
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    img{
+      width: 90px;
+      height: 90px;
+      margin-right: 15px;
+    }
+    .subInfo{
+      margin: 0 0 8px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      .material-symbols-outlined{
+        font-size: 16px;
+        margin-right: 7px;
+        opacity: 0.5;
+      }
+    }
+    .userName{
+      font-family: $outfit;
+      font-size: 24px;
+      margin: 0 0 8px;
+      color: #000;
+      font-weight: 500;
+    }
+  }
+
+  .userDetail{
+    display: flex;
+    flex-direction: row;
+    .column{
+      width: 33.3%;
+      display: flex;
+      flex-direction: row;
+      .material-symbols-outlined{
+        font-size: 40px;
+      }
+      .data{
+        .dataDetail{
+          font-size: 34px;
+        }
+      }
+    }
+
+  }
 }
