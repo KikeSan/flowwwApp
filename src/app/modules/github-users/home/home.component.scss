@@ -11,10 +11,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 22px;
     }
     img{
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
       margin-right: 10px;
     }
     span{
@@ -23,10 +24,18 @@
     }
   }
   .search{
-    display: flex;
-    justify-content: center;
+    .allForm{
+      display: flex;
+      justify-content: center;
+      max-width: 300px;
+      margin: 150px auto 0;
+    }
+
+  }
+  .errors{
     max-width: 300px;
-    margin: 150px auto 0;
+    margin: 10px auto 0;
+    font-size: 14px;
   }
 
   .result{
@@ -173,12 +182,24 @@ MODAL STYLES
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 24px;
+  padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   z-index: 1001;
   max-width: 450px;
   width: 90%;
+  &:before{
+    content: "";
+    background: radial-gradient(45.99% 29.51% at -3.19% 54.27%, #6E5EE0 0%, rgba(110, 94, 224, 0) 98.96%), radial-gradient(39.08% 32.96% at 9.69% 45.95%, #03E196 0%, rgba(3, 225, 150, 0) 100%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform: rotate(180deg);
+    opacity: 0.25;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
 }
 
 .modal-content {
@@ -188,16 +209,18 @@ MODAL STYLES
   .logo{
     width: 24px;
     height: 24px;
-    margin: 0 auto 30px;
+    margin: 0 auto 10px;
   }
   .userInfo{
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    border-top: 1px solid $gray-light;
+    padding-top: 30px;
     img{
       width: 90px;
       height: 90px;
       margin-right: 15px;
+      border-radius: 8px;
     }
     .subInfo{
       margin: 0 0 8px;
@@ -209,32 +232,71 @@ MODAL STYLES
         margin-right: 7px;
         opacity: 0.5;
       }
+      a{
+        color: $blue;
+      }
+    }
+    .userLogin{
+      font-family: $outfit;
+      font-size: 24px;
+      margin: 0;
+      color: #000;
+      font-weight: 500;
     }
     .userName{
       font-family: $outfit;
-      font-size: 24px;
-      margin: 0 0 8px;
-      color: #000;
-      font-weight: 500;
+      font-size: 20px;
+      color: $blackText;
+      margin: 0 0 10px;
     }
   }
 
   .userDetail{
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    margin: 30px 0 20px;
+
     .column{
-      width: 33.3%;
-      display: flex;
-      flex-direction: row;
-      .material-symbols-outlined{
-        font-size: 40px;
+      border: 1px solid $gray-light;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: rgba($white,0.7);
+      .title{
+
       }
       .data{
+        width: 33.3%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .material-symbols-outlined{
+          font-size: 30px;
+          margin-right: 7px;
+          opacity: 0.5;
+        }
         .dataDetail{
-          font-size: 34px;
+          font-size: 28px;
         }
       }
     }
 
+  }
+
+  .userAditionalInfo{
+    .subInfo{
+      margin: 0 0 8px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      .material-symbols-outlined{
+        font-size: 16px;
+        margin-right: 7px;
+        opacity: 0.5;
+      }
+      a{
+        color: $blue;
+      }
+    }
   }
 }

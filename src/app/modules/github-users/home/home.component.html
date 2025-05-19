@@ -7,12 +7,24 @@
   </div>
   <form [formGroup]="aFormGroup">
     <div class="search">
-      <input name="user" placeholder="Ingresar usuario" type="text" class="inputComponent" value=""
-             formControlName="username">
-      <button class="btnComponent" (click)="searchUser($event)">
-        <span class="material-symbols-outlined">search</span> BUSCAR
-      </button>
+      <div class="allForm">
+        <input name="user" placeholder="Ingresar usuario" type="text" class="inputComponent"
+               formControlName="username">
+        <button class="btnComponent" (click)="searchUser($event)" [disabled]="aFormGroup.invalid">
+          <span class="material-symbols-outlined">search</span> BUSCAR
+        </button>
+      </div>
+      <div class="errors" *ngIf="aFormGroup.invalid">
+        <div *ngIf="aFormGroup.get('username')?.errors?.['minlength']">
+          Debes ingresar al menos 4 caracteres.
+        </div>
+        <div *ngIf="aFormGroup.get('username')?.errors?.['noFlowww']">
+          No puedes buscar por la palabra "Flowww".
+        </div>
+      </div>
+
     </div>
+
   </form>
 
   <div class="result">
@@ -24,7 +36,8 @@
           <div class="userList--info">
 
             <h3>{{user.login}} <!--<span>{{user.id}}</span>--></h3>
-            <p>{{user.html_url}}</p>
+            <p>Seguidores: <b>{{ followersCountMap[user.login] !== undefined ? followersCountMap[user.login] :
+              'Cargando...' }}</b></p>
           </div>
         </a>
       </div>
@@ -47,7 +60,7 @@
   </div>
 </div>
 <div class="container_footer">
-  <p class="footer">©2025 - developed by Enrique Sánchez Q. All rights reserved.</p>
+  <p class="footer">Flowww ©2025 - developed by Enrique Sánchez Q.</p>
 </div>
 
 
@@ -60,39 +73,61 @@
     <div class="userInfo">
       <img src="{{usuarioSeleccionado?.avatar_url}}" alt="">
       <div class="text">
-        <p class="userName">{{ usuarioSeleccionado?.login }}</p>
+        <p class="userLogin">{{ usuarioSeleccionado?.login }}</p>
+        <p class="userName">{{ allDetail?.name }}</p>
         <p class="subInfo">
-          <span class="material-symbols-outlined">public</span>
-          <span>{{ usuarioSeleccionado?.html_url }}</span>
-        </p>
-        <p class="subInfo">
-          <span class="material-symbols-outlined">badge</span>
-          <span>Id: {{ usuarioSeleccionado?.id }}</span>
+          <span class="material-symbols-outlined">work</span>
+          <span>{{ allDetail?.bio }}</span>
         </p>
       </div>
     </div>
     <div class="userDetail">
       <div class="column">
-        <span class="material-symbols-outlined">sdk</span>
+        <div class="title">Repositorios</div>
         <div class="data">
-          <div class="title">Repositorios</div>
-          <div class="dataDetail">123</div>
+          <span class="material-symbols-outlined">sdk</span>
+          <div class="dataDetail">{{allDetail?.public_repos}}</div>
         </div>
       </div>
       <div class="column">
-        <span class="material-symbols-outlined">group</span>
+        <div class="title">Seguidores</div>
         <div class="data">
-          <div class="title">Seguidores</div>
-          <div class="dataDetail">13</div>
+          <span class="material-symbols-outlined">group</span>
+          <div class="dataDetail">{{allDetail?.followers}}</div>
         </div>
       </div>
       <div class="column">
-        <span class="material-symbols-outlined">diversity_1</span>
+        <div class="title">Siguiendo</div>
         <div class="data">
-          <div class="title">Siguiendo</div>
-          <div class="dataDetail">13</div>
+          <span class="material-symbols-outlined">diversity_1</span>
+          <div class="dataDetail">{{allDetail?.following}}</div>
         </div>
       </div>
+    </div>
+    <div class="userAditionalInfo">
+      <div class="column">
+        <p class="subInfo">
+          <span class="material-symbols-outlined">badge</span>
+          <span>Id: {{ allDetail?.id }}</span>
+        </p>
+        <p class="subInfo" *ngIf="allDetail?.company">
+          <span class="material-symbols-outlined">domain</span>
+          <span>Company: {{ allDetail?.company }}</span>
+        </p>
+        <p class="subInfo" *ngIf="allDetail?.location">
+          <span class="material-symbols-outlined">location_on</span>
+          <span>Location: {{ allDetail?.location }}</span>
+        </p>
+        <p class="subInfo">
+          <span class="material-symbols-outlined">public</span>
+          <a [href]="allDetail?.html_url" target="_blank"><span>{{ allDetail?.html_url }}</span></a>
+        </p>
+        <p class="subInfo" *ngIf="allDetail?.blog">
+          <span class="material-symbols-outlined">link</span>
+          <a [href]="allDetail?.blog" target="_blank"><span>{{ allDetail?.blog }}</span></a>
+        </p>
+      </div>
+
     </div>
 
     <button class="btnComponent" (click)="closeModal()">Cerrar</button>

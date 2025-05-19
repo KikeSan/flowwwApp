@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  pathGH: 'https://api.github.com/search/users?q='
+  pathGH: 'https://api.github.com/search/users?q=',
+  all: 'https://api.github.com/users/',
+  tkGH: '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'
 };
 
 /*
