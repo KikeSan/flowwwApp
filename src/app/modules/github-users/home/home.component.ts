@@ -12,6 +12,7 @@ import {GhUsersService} from "../services/gh-users.service";
 import {GhUserModel} from "../models/ghUser.model";
 import { gsap } from 'gsap';
 import {forkJoin} from "rxjs";
+import {environment} from "../../../../environments/environment";
 
 
 @Component({
@@ -38,6 +39,8 @@ export class HomeComponent implements OnInit {
 
   loadingDetailInfo = true;
 
+  version: string = '';
+
   constructor(
     private fb: FormBuilder,
     private ghService: GhUsersService
@@ -45,6 +48,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.version = environment.version
     this.aFormGroup = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(4), this.noFlowwwValidator()]],
     });
