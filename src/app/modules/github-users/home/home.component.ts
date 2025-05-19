@@ -34,8 +34,6 @@ export class HomeComponent implements OnInit {
 
   usuarioSeleccionado: any = null;
   modalAbierto = false;
-  repos: any[] = [];
-  following: any[] = [];
   allDetail:any = {};
 
   loadingDetailInfo = true;
