@@ -30,21 +30,26 @@
   <div class="result">
 
     <div class="userList">
+      <div class="userList--noUsers" *ngIf="currentPageUsers.length==0">
+        <span class="material-symbols-outlined">person_off</span>
+        <span>No se encontraron usuarios.</span>
+      </div>
       <div class="userList--user" *ngFor="let user of currentPageUsers">
         <a (click)="openUserInfo(user)" class="userList--holder">
           <img src="{{user.avatar_url}}" alt="">
           <div class="userList--info">
 
-            <h3>{{user.login}} <!--<span>{{user.id}}</span>--></h3>
-            <p>Seguidores: <b>{{ followersCountMap[user.login] !== undefined ? followersCountMap[user.login] :
-              'Cargando...' }}</b></p>
+            <h3>{{user.login}}</h3>
+            <p>Seguidores: <b>{{ getFollowersLabel(user.login) }}</b></p>
           </div>
         </a>
       </div>
     </div>
 
     <div class="pagination">
-      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1" class="btnComponent">Anterior</button>
+      <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1" class="btnComponent">
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
 
       <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
         <button
@@ -55,7 +60,9 @@
         </button>
       </ng-container>
 
-      <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages" class="btnComponent">Siguiente</button>
+      <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages" class="btnComponent">
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
     </div>
   </div>
 </div>
@@ -69,67 +76,72 @@
 <div class="modal-backdrop" *ngIf="modalAbierto" (click)="closeModal()"></div>
 <div class="modal" *ngIf="modalAbierto">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <img class="logo" src="./assets/images/github_icon.png" alt="">
-    <div class="userInfo">
-      <img src="{{usuarioSeleccionado?.avatar_url}}" alt="">
-      <div class="text">
-        <p class="userLogin">{{ usuarioSeleccionado?.login }}</p>
-        <p class="userName">{{ allDetail?.name }}</p>
-        <p class="subInfo">
-          <span class="material-symbols-outlined">work</span>
-          <span>{{ allDetail?.bio }}</span>
-        </p>
-      </div>
+    <div class="holderImage">
+      <img class="logo" src="./assets/images/github_icon.png" alt="">
     </div>
-    <div class="userDetail">
-      <div class="column">
-        <div class="title">Repositorios</div>
-        <div class="data">
-          <span class="material-symbols-outlined">sdk</span>
-          <div class="dataDetail">{{allDetail?.public_repos}}</div>
+    <div class="loading" *ngIf="loadingDetailInfo">Cargando...</div>
+    <div class="content" *ngIf="!loadingDetailInfo">
+      <div class="userInfo">
+        <img src="{{allDetail?.avatar_url}}" alt="">
+        <div class="text">
+          <p class="userLogin">{{ allDetail?.login }}</p>
+          <p class="userName">{{ allDetail?.name }}</p>
+          <p class="subInfo">
+            <span class="material-symbols-outlined">work</span>
+            <span>{{ allDetail?.bio||'User info' }}</span>
+          </p>
         </div>
       </div>
-      <div class="column">
-        <div class="title">Seguidores</div>
-        <div class="data">
-          <span class="material-symbols-outlined">group</span>
-          <div class="dataDetail">{{allDetail?.followers}}</div>
+      <div class="userDetail">
+        <div class="column">
+          <div class="title">Repositorios</div>
+          <div class="data">
+            <span class="material-symbols-outlined">sdk</span>
+            <div class="dataDetail">{{allDetail?.public_repos}}</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="title">Seguidores</div>
+          <div class="data">
+            <span class="material-symbols-outlined">group</span>
+            <div class="dataDetail">{{allDetail?.followers}}</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="title">Siguiendo</div>
+          <div class="data">
+            <span class="material-symbols-outlined">diversity_1</span>
+            <div class="dataDetail">{{allDetail?.following}}</div>
+          </div>
         </div>
       </div>
-      <div class="column">
-        <div class="title">Siguiendo</div>
-        <div class="data">
-          <span class="material-symbols-outlined">diversity_1</span>
-          <div class="dataDetail">{{allDetail?.following}}</div>
+      <div class="userAditionalInfo">
+        <div class="column">
+          <p class="subInfo">
+            <span class="material-symbols-outlined">badge</span>
+            <span>Id: {{ allDetail?.id }}</span>
+          </p>
+          <p class="subInfo" *ngIf="allDetail?.company">
+            <span class="material-symbols-outlined">domain</span>
+            <span>Company: {{ allDetail?.company }}</span>
+          </p>
+          <p class="subInfo" *ngIf="allDetail?.location">
+            <span class="material-symbols-outlined">location_on</span>
+            <span>Location: {{ allDetail?.location }}</span>
+          </p>
+          <p class="subInfo">
+            <span class="material-symbols-outlined">public</span>
+            <a [href]="allDetail?.html_url" target="_blank"><span>{{ allDetail?.html_url }}</span></a>
+          </p>
+          <p class="subInfo" *ngIf="allDetail?.blog">
+            <span class="material-symbols-outlined">link</span>
+            <a [href]="allDetail?.blog" target="_blank"><span>{{ allDetail?.blog }}</span></a>
+          </p>
         </div>
-      </div>
-    </div>
-    <div class="userAditionalInfo">
-      <div class="column">
-        <p class="subInfo">
-          <span class="material-symbols-outlined">badge</span>
-          <span>Id: {{ allDetail?.id }}</span>
-        </p>
-        <p class="subInfo" *ngIf="allDetail?.company">
-          <span class="material-symbols-outlined">domain</span>
-          <span>Company: {{ allDetail?.company }}</span>
-        </p>
-        <p class="subInfo" *ngIf="allDetail?.location">
-          <span class="material-symbols-outlined">location_on</span>
-          <span>Location: {{ allDetail?.location }}</span>
-        </p>
-        <p class="subInfo">
-          <span class="material-symbols-outlined">public</span>
-          <a [href]="allDetail?.html_url" target="_blank"><span>{{ allDetail?.html_url }}</span></a>
-        </p>
-        <p class="subInfo" *ngIf="allDetail?.blog">
-          <span class="material-symbols-outlined">link</span>
-          <a [href]="allDetail?.blog" target="_blank"><span>{{ allDetail?.blog }}</span></a>
-        </p>
-      </div>
 
+      </div>
     </div>
 
-    <button class="btnComponent" (click)="closeModal()">Cerrar</button>
+    <button class="btnComponent" (click)="closeModal()">CERRAR</button>
   </div>
 </div>

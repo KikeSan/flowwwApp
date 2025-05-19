@@ -38,6 +38,8 @@ export class HomeComponent implements OnInit {
   following: any[] = [];
   allDetail:any = {};
 
+  loadingDetailInfo = true;
+
   constructor(
     private fb: FormBuilder,
     private ghService: GhUsersService
@@ -106,31 +108,26 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  getFollowersLabel(login: string): string {
+    const count = this.followersCountMap[login];
+    if (count === undefined) return 'Cargando...';
+    return count < 100 ? `${count}` : '+100';
+  }
+
   openUserInfo(user: GhUserModel): void {
     this.usuarioSeleccionado = user;
     this.modalAbierto = true;
     console.log('User selected--->', this.usuarioSeleccionado)
     console.log('Followers--->', this.followersCountMap[this.usuarioSeleccionado.login])
-    const login = user.login;
-    // @ts-ignore
-    const cleanFollowingUrl = user['following_url'].replace('{/other_user}', '');
 
-    this.repos = [];
-    this.following = [];
     this.allDetail = {};
+    this.loadingDetailInfo = true;
 
-    forkJoin({
-      // @ts-ignore
-      repos: this.ghService.getRepos(user.repos_url),
-      following: this.ghService.getFollowing(cleanFollowingUrl),
-      alldata: this.ghService.getAllDataGH(user.login)
-    }).subscribe(({ repos, following, alldata }) => {
-      this.repos = repos;
-      this.following = following;
-      this.allDetail = alldata;
-    });
-
-    console.log('DATA-->', this.allDetail)
+    this.ghService.getAllDataGH(user.login).subscribe(resp => {
+      this.allDetail = resp;
+      this.loadingDetailInfo = false;
+      console.log('DATA-->', this.allDetail)
+    })
   }
 
   closeModal(): void {
